@@ -1244,6 +1244,61 @@ describe('test/hessian.test.js', () => {
         assert.deepEqual(buf1, buf3);
       });
 
+      it('should support pass generic param pass with typeVar', () => {
+        const obj = {
+          $class: 'com.eggjs.dubbo.GenericParams',
+          $: {
+            useGenericIndex0: 999,
+            useGenericIndex1: 'isString',
+            passGeneric: {
+              propertyIndex0: 'stringProperty',
+              propertyIndex1: [ 123, 456 ],
+            },
+          },
+          generic: [{
+            type: 'java.lang.Integer',
+          }, {
+            type: 'java.lang.String',
+          }],
+        };
+
+        const buf1 = hessian.encode({
+          $class: 'com.eggjs.dubbo.GenericParams',
+          $: {
+            useGenericIndex0: {
+              $class: 'java.lang.Integer',
+              $: 999,
+            },
+            useGenericIndex1: {
+              $class: 'java.lang.String',
+              $: 'isString',
+            },
+            passGeneric: {
+              $class: 'com.eggjs.dubbo.PassGeneric',
+              $: {
+                propertyIndex0: {
+                  $class: 'java.lang.String',
+                  $: 'stringProperty',
+                },
+                propertyIndex1: {
+                  $class: 'java.util.List',
+                  $: [{
+                    $class: 'java.lang.Integer',
+                    $: 123,
+                  }, {
+                    $class: 'java.lang.Integer',
+                    $: 456,
+                  }],
+                },
+              },
+            },
+          },
+        }, version);
+
+        const buf2 = encode(obj, version, classMap, {}, options);
+        assert.deepEqual(buf1, buf2);
+      });
+
       it('should class inheritance', () => {
         const obj = {
           $class: 'com.alipay.test.Father',

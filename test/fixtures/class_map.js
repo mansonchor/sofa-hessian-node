@@ -303,4 +303,41 @@ module.exports = {
       'type': 'java.lang.String'
     }
   },
+
+  // pass generic
+  'com.eggjs.dubbo.GenericParams': {
+    'useGenericIndex0': {
+      'type': 'T',
+      'typeAliasIndex': 0
+    },
+    'useGenericIndex1': {
+      'type': 'R',
+      'typeAliasIndex': 1
+    },
+    'passGeneric': {
+      'type': 'com.eggjs.dubbo.PassGeneric',
+      'generic': [{
+        'typeVar': true,
+        'type':'R',
+        'typeAliasIndex': 1,
+      }, {
+        'type':'java.util.List', 
+        'generic': [{
+          'typeVar': true,
+          'type':'T',
+          'typeAliasIndex': 0,
+        }],
+      }],
+    },
+  },
+  'com.eggjs.dubbo.PassGeneric': {
+    'propertyIndex0': {
+      'type': 'E',
+      'typeAliasIndex': 0
+    },
+    'propertyIndex1': {
+      'type': 'R',
+      'typeAliasIndex': 1
+    },
+  },
 };
